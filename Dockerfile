@@ -4,8 +4,8 @@ FROM confluentinc/cp-kafka-connect
 
 ENV BUILD_PACKAGES="git maven"
 
-RUN apt-get -y update \
- && apt-get -y install $BUILD_PACKAGES \
+RUN apt-get -qy update \
+ && apt-get -qy install $BUILD_PACKAGES \
 
 
  && git clone --recursive https://github.com/GoogleCloudPlatform/cloud-pubsub-kafka \
@@ -16,7 +16,7 @@ RUN apt-get -y update \
  && rm -rf cloud-pubsub-kafka \
 
 
- && apt-get -y remove --purge $BUILD_PACKAGES \
- && apt-get -y autoremove --purge \
+ && apt-get -qy remove --purge $BUILD_PACKAGES \
+ && apt-get -qy autoremove --purge \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/*
