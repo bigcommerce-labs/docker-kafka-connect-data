@@ -1,4 +1,4 @@
-# Kafka Connect pre-packaged all the JARs we need.
+# Kafka Connect pre-packaged all the JARs we need
 
 FROM confluentinc/cp-kafka-connect
 
