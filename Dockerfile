@@ -9,10 +9,10 @@ RUN apt-get -y update \
 
 
  && git clone --recursive https://github.com/GoogleCloudPlatform/cloud-pubsub-kafka \
- && pushd cloud-pubsub-kafka/kafka-connector \
+ && cd cloud-pubsub-kafka/kafka-connector \
  && mvn package \
  && cp target/cps-kafka-connector.jar /usr/share/java/kafka \
- && popd \
+ && cd \
  && rm -rf cloud-pubsub-kafka \
 
 
