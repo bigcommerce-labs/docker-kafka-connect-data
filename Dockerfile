@@ -1,4 +1,4 @@
-# Kafka Connect pre-packaged all the JARs we need
+# Kafka Connect pre-packaged with all the connectors we need
 
 FROM confluentinc/cp-kafka-connect
 
@@ -19,4 +19,8 @@ RUN apt-get -qy update \
  && apt-get -qy remove --purge $BUILD_PACKAGES \
  && apt-get -qy autoremove --purge \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/*
+ && rm -rf /var/lib/apt/lists/* /tmp/* \
+
+ && echo '/etc/bigcommerce/pre-configure' >> /etc/confluent/docker/apply-mesos-overrides
+
+COPY include/etc/bigcommerce /etc/bigcommerce
