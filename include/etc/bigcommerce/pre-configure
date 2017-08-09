@@ -1,37 +1,14 @@
 #!/bin/bash
 set -e
 
-# TODO: this file is likely generic enough to be shared across containers, so
-#       look into how we can do that easily
-
-# SECRETS_BASE_S3_URL and SECRETS_BASE_DIR must be provided via environment vars
-#
-# Examples:
-# SECRETS_BASE_S3_URL=s3://bucketname/prefix
-# SECRETS_BASE_DIR=/some/local/folder
-
-mkdir -p "${SECRETS_BASE_DIR}/encrypted" "${SECRETS_BASE_DIR}/decrypted"
-
-echo "Downloading secrets from: ${SECRETS_BASE_S3_URL} ..."
-
 aws configure set s3.signature_version s3v4
-aws s3 cp \
-	--recursive \
-	"${SECRETS_BASE_S3_URL}/encrypted/" \
-	"${SECRETS_BASE_DIR}/encrypted/"
+BOOTSTRAP_FILE=$(mktemp)
 
-for ENCRYPTED_FILE in "${SECRETS_BASE_DIR}"/encrypted/*.gpg; do
-	BASE_NAME="${ENCRYPTED_FILE##*/}"
-	echo "Decrypting secret: '${BASE_NAME}' ..."
-
-	ENCRYPTED_KEY="${ENCRYPTED_FILE%.gpg}.key"
-	DECRYPTED_FILE="${SECRETS_BASE_DIR}/decrypted/${BASE_NAME}"
-
-	aws kms decrypt \
-		--ciphertext-blob="fileb://${ENCRYPTED_KEY}" \
-		--query=Plaintext \
-		--output=text \
-		| openssl base64 -d \
-		| gpg --decrypt --passphrase-fd 0 --batch -q "${ENCRYPTED_FILE}" \
-		> "${DECRYPTED_FILE}"
-done
+echo "==> Downloading bootstrap script: ${BOOTSTRAP_S3_URL} ..."
+if (aws s3 cp "${BOOTSTRAP_S3_URL}" "${BOOTSTRAP_FILE}"); then
+	echo "==> Bootstrapping ..."
+	chmod +x "${BOOTSTRAP_FILE}"
+	"${BOOTSTRAP_FILE}"
+else
+	echo "==> WARNING: Bootstrap file could not be downloaded"
+fi
