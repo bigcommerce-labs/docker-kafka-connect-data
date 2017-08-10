@@ -24,6 +24,6 @@ RUN apt-get -qy update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* \
 
- && echo '/etc/bigcommerce/pre-configure' >> /etc/confluent/docker/apply-mesos-overrides
+ && echo 'source /etc/bigcommerce/pre-configure' >> /etc/confluent/docker/apply-mesos-overrides
 
 COPY include/etc/bigcommerce /etc/bigcommerce
