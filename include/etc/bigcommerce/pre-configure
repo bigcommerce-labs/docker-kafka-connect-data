@@ -4,12 +4,12 @@ set -e
 aws configure set s3.signature_version s3v4
 BOOTSTRAP_FILE=$(mktemp)
 
-echo "==> Downloading bootstrap script: ${BOOTSTRAP_S3_URL} ..."
+echo "===> Downloading bootstrap script: ${BOOTSTRAP_S3_URL} ..."
 if (aws s3 cp "${BOOTSTRAP_S3_URL}" "${BOOTSTRAP_FILE}"); then
-	echo "==> Bootstrapping ..."
+	echo "===> Bootstrapping ..."
 	chmod +x "${BOOTSTRAP_FILE}"
 	source "${BOOTSTRAP_FILE}"
-	echo "==> Bootstrapped"
+	echo "===> Bootstrapped"
 else
-	echo "==> WARNING: Bootstrap file could not be downloaded"
+	echo "===> WARNING: Bootstrap file could not be downloaded"
 fi

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#
+# Copyright 2016 Confluent Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# This is a modified version of the run file provided in the original Confluent
+# distribution. We remove potential security leaks such as verbose/xtrace
+# settings, and the env var dumps. We also inject a pre-configure script which
+# is able to download a bootstrap script from S3 to run before everything boots
+# up, allowing us to grab secrets and other runtime values. -Gwilym
+#
+
+set -o nounset \
+    -o errexit
+
+echo "===> BigCommerce pre-configure ..."
+source /etc/bigcommerce/pre-configure
+
+echo "===> Apply Mesos overrides ..."
+source /etc/confluent/docker/apply-mesos-overrides
+
+echo "===> User"
+id
+
+echo "===> Configuring ..."
+/etc/confluent/docker/configure
+
+echo "===> Running preflight checks ... "
+/etc/confluent/docker/ensure
+
+echo "===> Launching ... "
+exec /etc/confluent/docker/launch
