@@ -14,7 +14,7 @@ RUN apt-get -qy update \
 
  && git clone --recursive https://github.com/GoogleCloudPlatform/cloud-pubsub-kafka \
  && cd cloud-pubsub-kafka/kafka-connector \
- && sed -ie 's#<finalName>#<relocations><relocation><pattern>io.netty</pattern><shadedPattern>shaded.io.netty</shadedPattern></relocation><relocation><pattern>com.google</pattern><shadedPattern>shaded.com.google</shadedPattern></relocation></relocations><finalName>#' pom.xml \
+ && sed -ie 's#<finalName>#<relocations><relocation><pattern>io.netty</pattern><shadedPattern>shaded.io.netty</shadedPattern></relocation></relocations><finalName>#' pom.xml \
  && mvn package \
  && mkdir /usr/share/java/kafka-connect \
  && cp target/cps-kafka-connector.jar /usr/share/java/kafka-connect \
