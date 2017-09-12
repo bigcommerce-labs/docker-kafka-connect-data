@@ -12,6 +12,8 @@ RUN apt-get -qy update \
  && pip install --upgrade $RUNTIME_PIP_PACKAGES \
  && aws --version \
 
+ && sed -ie 's/^#networkaddress.cache.ttl=-1$/networkaddress.cache.ttl=30/' /usr/lib/jvm/zulu-8-amd64/jre/lib/security/java.security \
+
  && git clone --recursive https://github.com/GoogleCloudPlatform/cloud-pubsub-kafka \
  && cd cloud-pubsub-kafka/kafka-connector \
  && sed -ie 's#<finalName>#<relocations><relocation><pattern>io.netty</pattern><shadedPattern>shaded.io.netty</shadedPattern></relocation></relocations><finalName>#' pom.xml \
