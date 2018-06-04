@@ -69,7 +69,7 @@ sdk flush broadcast
 
 cd /
 rm -rf /root/.gradle /root/.m2
-rm -rf /opt/confluentinc-common /opt/confluentinc-rest-utils /opt/confluentinc-schema-registry /opt/kafka-connect-storage-common
+rm -rf /opt/confluentinc-common /opt/confluentinc-rest-utils /opt/confluentinc-schema-registry
 
 groupadd -g 30010 -r connect
 useradd -u 30010 --no-log-init -g connect connect
