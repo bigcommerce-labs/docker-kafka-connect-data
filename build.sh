@@ -24,7 +24,7 @@ sdk install gradle
 cd /opt
 git clone https://github.com/apache/kafka kafka
 cd kafka
-sed -ie 's#"-Xlint:unsound-match",#"-Xlint:unsound-match","-Xmax-classfile-name","127",#' build.gradle
+sed -ie 's#"-Xlint:unsound-match"#"-Xlint:unsound-match","-Xmax-classfile-name","127"#' build.gradle
 gradle
 ./gradlew installAll
 
