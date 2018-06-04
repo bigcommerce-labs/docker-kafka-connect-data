@@ -56,13 +56,16 @@ ln -s /opt/kafka-connect-storage-common/package-kafka-connect-storage-common/tar
 
 # configure
 sed -ie 's/^#networkaddress.cache.ttl=-1$/networkaddress.cache.ttl=30/' /root/.sdkman/candidates/java/current/jre/lib/security/java.security
-mkdir /tmp/topics # TODO: use a volume? make this configurable?
 
 # TODO: might be able to remove all the dependency repos (except kafka itself
 # since we need the bin/ scripts, but that could be remedied in future)
 
 sdk flush temp
 sdk flush archives
+
+groupadd -g 30010 -r connect
+useradd -u 30010 --no-log-init -g connect connect
+chown -R connect:connect /opt/app
 
 apt-get -qy remove --purge $BUILD_APT_PACKAGES
 apt-get -qy autoremove --purge
