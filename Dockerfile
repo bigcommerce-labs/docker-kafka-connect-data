@@ -1,23 +1,8 @@
-# Kafka Connect pre-packaged with all the connectors we need
+FROM debian:jessie-slim
 
-FROM confluentinc/cp-kafka-connect:3.3.0-1
+COPY build.sh /opt/build.sh
+RUN /opt/build.sh
 
-ENV BUILD_PACKAGES="git maven"
-ENV RUNTIME_PIP_PACKAGES="awscli"
-
-RUN apt-get -qy update \
- && apt-get -qy upgrade \
- && apt-get -qy install $BUILD_PACKAGES \
-
- && pip install --upgrade $RUNTIME_PIP_PACKAGES \
- && aws --version \
-
- && sed -ie 's/^#networkaddress.cache.ttl=-1$/networkaddress.cache.ttl=30/' /usr/lib/jvm/zulu-8-amd64/jre/lib/security/java.security \
-
- && apt-get -qy remove --purge $BUILD_PACKAGES \
- && apt-get -qy autoremove --purge \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/*
-
+# runtime files not required for build
 COPY include/etc/confluent/docker /etc/confluent/docker
 COPY include/etc/bigcommerce /etc/bigcommerce
