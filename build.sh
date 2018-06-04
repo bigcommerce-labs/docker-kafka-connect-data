@@ -65,7 +65,6 @@ sdk flush archives
 
 groupadd -g 30010 -r connect
 useradd -u 30010 --no-log-init -g connect connect
-chown -R connect:connect /opt/app
 
 apt-get -qy remove --purge $BUILD_APT_PACKAGES
 apt-get -qy autoremove --purge
