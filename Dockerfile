@@ -1,6 +1,6 @@
 # Kafka Connect pre-packaged with all the connectors we need
 
-FROM confluentinc/cp-kafka-connect:3.3.0-1
+FROM confluentinc/cp-kafka-connect:5.0.0-beta30-1
 
 ENV BUILD_PACKAGES="git maven"
 ENV RUNTIME_PIP_PACKAGES="awscli"
