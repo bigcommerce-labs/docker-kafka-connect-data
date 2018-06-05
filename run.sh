@@ -14,6 +14,11 @@ else
 	echo "===> WARNING: Bootstrap file could not be downloaded"
 fi
 
+if [ -z ${SDKMAN_DIR+x} ]; then
+	export SDKMAN_DIR="/usr/local/sdkman"
+fi
+source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
 for VAR in `env`
 do
 	if [[ $VAR =~ ^CONNECT_ ]]; then

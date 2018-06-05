@@ -14,8 +14,9 @@ aws --version
 
 # using this (for now at least) because the maven version that comes with debian
 # jessie is too old to compile kafka
+export SDKMAN_DIR="/usr/local/sdkman"
 curl -s "https://get.sdkman.io" | bash
-source "/root/.sdkman/bin/sdkman-init.sh"
+source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 sdk version
 sdk install java
 sdk install maven
