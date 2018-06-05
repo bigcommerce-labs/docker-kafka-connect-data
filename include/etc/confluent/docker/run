@@ -15,21 +15,26 @@
 # limitations under the License.
 
 #
+# BigCommerce Note:
+#
 # This is a modified version of the run file provided in the original Confluent
 # distribution. We remove potential security leaks such as verbose/xtrace
 # settings, and the env var dumps. We also inject a pre-configure script which
 # is able to download a bootstrap script from S3 to run before everything boots
-# up, allowing us to grab secrets and other runtime values. -Gwilym
+# up, allowing us to grab secrets and other runtime values.
 #
 
 set -o nounset \
     -o errexit
 
-echo "===> BigCommerce pre-configure ..."
-source /etc/bigcommerce/pre-configure
+echo "===> BigCommerce Pre-Configure ..."
+. /etc/bigcommerce/pre-configure
 
-echo "===> Apply Mesos overrides ..."
-source /etc/confluent/docker/apply-mesos-overrides
+echo "===> Mesos Setup ..."
+. /etc/confluent/docker/mesos-setup.sh
+
+echo "===> Apply Mesos Overrides ..."
+. /etc/confluent/docker/apply-mesos-overrides
 
 echo "===> User"
 id
