@@ -74,6 +74,8 @@ rm -rf /opt/confluentinc-common /opt/confluentinc-rest-utils /opt/confluentinc-s
 
 groupadd -g 30010 -r connect
 useradd -u 30010 --no-log-init -g connect connect
+mkdir -p /home/connect
+chown -R connect:connect /home/connect /etc/bigcommerce/*.properties
 
 apt-get -qy remove --purge $BUILD_APT_PACKAGES
 apt-get -qy autoremove --purge
